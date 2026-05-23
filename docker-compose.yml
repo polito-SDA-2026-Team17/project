@@ -1,0 +1,11 @@
+services:
+  structurizr:
+    image: structurizr/structurizr:latest
+    command: local
+    environment:
+      - PORT=8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./diagrams:/usr/local/structurizr
+    restart: unless-stopped
