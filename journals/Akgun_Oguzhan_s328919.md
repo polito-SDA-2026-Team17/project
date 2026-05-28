@@ -6,6 +6,7 @@
 |
 | [2026-04-22](#log-2026-04-21) | Overview and ReactAndroid metric analysis | 2 | Overview |
 | [2026-05-07](#log-2026-05-07) | Finalized Level 1 Context analysis and reporting | 3 | Level 1: Context |
+| [2026-05-28](#log-2026-05-28) | Drafted alternative L2 configuration using Structurizr DSL | 4 | Level 2: Containers |
 
 
 ## Detailed Contributions
@@ -24,3 +25,11 @@ I prepared a formal suggestion and the necessary code statistics for the group m
 **Theoretical Alignment:** Applied the "Separation of Policy and Detail" principle, identifying the framework as the core policy and SDKs as mechanisms.
 
 ![alt text](../images/L1-diagram-react-native.png)
+
+### <a id="log-2026-05-28"></a>[2026-05-28]
+**Specific Contribution:** Developed an alternative Level 2 Container configuration using Structurizr DSL to evaluate system boundaries and architectural decoupling as a proposal for the team review.
+
+**Alternative Modeling:** Drafted an alternative C4 Container layout where the cross-platform C++ core (ReactCommon) is strictly isolated as an independent policy container, distinct from platform-dependent wrappers (Java/Swift). This was implemented to test the "Separation of Policy and Detail" layout.
+
+**Proposal Readying:** Documented and exported the visual diagram to present it in the upcoming team meeting in order to evaluate the structural boundaries before settling on the final consolidated model.
+![alt text](../images/L2-diagram.png)
