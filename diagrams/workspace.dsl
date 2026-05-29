@@ -1,45 +1,112 @@
 workspace "React Native Architecture" "C4 model for React Native" {
+
     model {
-        endUser = person "End User" "Uses mobile apps built with React Native"
-        mobileAppDeveloper = person "Mobile App Developer" "Builds mobile apps using React Native"
+        // ==========================================
+        // --- L1: ACTORS & EXTERNAL SYSTEMS ---
+        // ==========================================
+        endUser = person "End User" "Uses the final mobile application on their devices."
+        appDeveloper = person "App Developer" "Builds cross-platform mobile apps by writing React/JS application logic."
 
-        iosPlatform = softwareSystem "iOS Platform" "Native iOS operating system and APIs"
-        androidPlatform = softwareSystem "Android Platform" "Native Android operating system and APIs"
-        reactLibrary = softwareSystem "React" "Provides the core component model and state management used by React Native"
-        dependencyManager = softwareSystem "Dependency Manager" "Used to resolve and install the libraries required for the framework and apps to build successfully"
+        iosPlatform = softwareSystem "iOS Platform" "Native Apple operating system (UIKit, CoreAnimation, Cocoa Touch APIs)." "iOS"
+        androidPlatform = softwareSystem "Android Platform" "Native Android operating system (Android SDK, OS Window Manager)." "Android"
+        reactLibrary = softwareSystem "React" "Core library providing the component-driven model and state management paradigms." "React"
+        javaScriptRuntime = softwareSystem "JS Runtime (Hermes)" "Embedded JS execution engine running bytecode directly on the device." "JSRuntime"
+        yoga = softwareSystem "Yoga Layout Engine" "Cross-platform layout engine computing flexible geometry (Flexbox UI updates)." "Yoga"
 
-        reactNative = softwareSystem "React Native" "Cross-platform mobile UI framework. Allows developers to build native applications with React, provides access to platform APIs, and bridges JavaScript logic with native components" {
-            jsRuntime = container "JS Runtime" "Executes business logic, manages state, and calculates the component tree" {
-                technology "JavaScript, Hermes"
+        // ==========================================
+        // --- L2: REACT NATIVE SYSTEM ---
+        // ==========================================
+        reactNative = softwareSystem "React Native Framework" "Cross-platform mobile UI framework based on the New Architecture." {
+            
+            // TOOLING / BUILD TIME
+            codegen = container "React Native Codegen" "Parses TS/Flow specs to generate static C++ descriptors and native platform glue-code." "C++ / JavaScript"
+            
+            // RUNTIME JAVASCRIPT LAYER
+            jsLayer = container "JS Framework Layer" "Contains core npm packages (View, Text), developer-facing APIs, and the React tree builder." "JavaScript / TypeScript"
+            
+            // RUNTIME CORE C++ (L3 Target)
+            cppCore = container "Shared C++ Runtime Core" "The core of the New Architecture. Manages JSI bindings, Fabric's Shadow Tree, and synchronous operations." "C++" {
+                
+                jsiBindings = component "JSI Engine Bridge" "Exposes C++ Host Objects and handles low-level data mapping with the JS engine runtime." "C++ (facebook::jsi)"
+                fabricScheduler = component "Fabric Scheduler" "Orchestrates UI commits, coordinates runtime threads, and prioritizes layout rendering work." "C++ (react::renderer::Scheduler)"
+                shadowTreeManager = component "Shadow Tree Manager" "Manages immutable trees of C++ ShadowNodes representing the layout geometry." "C++ (react::renderer::ShadowTree)"
+                turboModuleManager = component "TurboModules Engine" "Provides a registry and synchronous execution path for strongly-typed native modules." "C++"
+                mountingCoordinator = component "Mounting Coordinator" "Computes differences between shadow trees and generates layout mutation lists." "C++ (react::renderer::MountingCoordinator)"
+
+                // --- L3 Internal Component Relationships ---
+                jsiBindings -> fabricScheduler "Forwards UI rendering requests to"
+                jsiBindings -> turboModuleManager "Routes synchronous native module invocations to"
+                fabricScheduler -> shadowTreeManager "Schedules tree updates and commits on"
+                shadowTreeManager -> mountingCoordinator "Supplies calculated layout transactions to"
             }
-            nativeHost = container "Native Host Container" "Manages lifecycle, the UI main thread, layout, and native delegation" {
-                technology "C++, Java/Kotlin, Swift/Obj-C"
-            }
+            
+            // PLATFORM WRAPPERS
+            androidWrapper = container "React Android Adapter" "Initializes the native Android instance, hosts Java ViewManagers, and handles JNI communications." "Java / C++ (JNI)"
+            appleWrapper = container "React Apple Adapter" "Initializes the native iOS instance, manages UIView lifecycles, and hosts component mounting." "Objective-C++ / Swift"
 
-            jsRuntime -> nativeHost "Send rendering instructions" "JSI (synchronous, C++ objects)"
-            nativeHost -> jsRuntime "Notify user events" "JSI (asynchronous, event loop)"
-            nativeHost -> iosPlatform "Request physical pixel drawing on screen" "Platform native API"
-            nativeHost -> androidPlatform "Request physical pixel drawing on screen" "Platform native API"
+            // --- Inner Container Relationships ---
+            jsLayer -> jsiBindings "Invokes native methods and dispatches rendering trees synchronously via" "JSI"
+            
+            codegen -> cppCore "Generates C++ ComponentDescriptors and native platform bindings for" "Build Tooling"
+            
+            cppCore -> androidWrapper "Dispatches layout mutation lists for native mounting via" "JNI"
+            cppCore -> appleWrapper "Dispatches layout mutation lists for native mounting via" "C++ Pointers"
         }
 
-        endUser -> reactNative "Uses mobile apps built with"
-        mobileAppDeveloper -> reactNative "Builds apps using"
+        // ==========================================
+        // --- CONTEXT RELATIONSHIPS (L1 / L2 EXTERNAL) ---
+        // ==========================================
+        endUser -> reactNative "Uses mobile app built with"
+        appDeveloper -> reactNative "Develops mobile applications utilizing"
 
-        reactNative -> iosPlatform "Invokes iOS APIs"
-        reactNative -> androidPlatform "Invokes Android APIs"
-        reactNative -> reactLibrary "Uses declarative UI patterns and shared APIs from"
-        reactNative -> dependencyManager "Resolves and installs project dependencies for"
+        androidWrapper -> androidPlatform "Initializes and renders native views using" "Android SDK"
+        appleWrapper -> iosPlatform "Initializes and renders native UIViews using" "UIKit"
+
+        reactNative -> reactLibrary "Uses the declarative component model and state management from"
+        
+        jsiBindings -> javaScriptRuntime "Interacts with the engine lifecycle and injects C++ Host Objects into" "JSI"
+        shadowTreeManager -> yoga "Delegates the flexbox layout computational rendering of nodes to" "C++ Static Linking"
+        
+        mountingCoordinator -> androidWrapper "Pushes Java-specific Mutation Lists for UI rendering via" "JNI"
+        mountingCoordinator -> appleWrapper "Pushes Objective-C++ Component View mutations via" "C++ Pointers"
     }
 
     views {
         systemContext reactNative {
             include *
+            autolayout lr
         }
 
         container reactNative {
             include *
+            exclude yoga
+            exclude javaScriptRuntime
+            autolayout lr
+        }
+
+        component cppCore {
+            include *
+            autolayout lr
         }
 
         theme default
+        
+        styles {
+            element "iOS" {
+                background #7c7c7c 
+            }
+            element "Android" {
+                background #7c7c7c
+            }
+            element "React" {
+                background #7c7c7c 
+            }
+            element "JSRuntime" {
+                background #7c7c7c
+            }
+            element "Yoga" {
+                background #7c7c7c
+            }
+        }
     }
 }
