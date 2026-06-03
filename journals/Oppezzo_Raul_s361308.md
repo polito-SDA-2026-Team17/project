@@ -7,6 +7,8 @@
 | 2026-05-05 | Revision of React Native System Context Diagram (L1) | 1.5 | Architecture: System Context |
 | 2026-05-06 | Definition of Container boundaries (L2) for the New Architecture | 2.5 | Architecture: Container Level |
 | 2026-05-23 | Setup of Structurizr Local workspace, Docker Compose file, and architecture report structure | 1.5 | Architecture: Structurizr Integration |
+| 2026-05-28 | Revision of React Native Container Diagram (L2) and System Context Diagram (L1) | 1.5 | Architecture |
+| 2026-05-29 | Definition of Component Diagram (L3) scope and content | 2.5 | Architecture: Component Level |
 
 ## Detailed Contributions
 ### 2026-04-20 [Overview: Technical Background]
@@ -20,3 +22,9 @@
 
 ### 2026-05-23 [Architecture: Structurizr Integration]
 **Specific Contribution:** I organized the architecture documentation around Structurizr by creating a reusable DSL workspace, adding a root-level Docker Compose file for local execution, and updating the Software Architecture report to describe the C4 System Context and Container views. This makes the diagram generation process reproducible and keeps the architecture source of truth inside the repository.
+
+### 2026-05-28 [Architecture: System and Container Level]
+**Specific Contribution:** I refactored the C4 Level 1 and 2 diagrams, moving the JS Runtime Container as an external system (Hermes). The Container Level (L2) now contains mainly a C++ Core, the JS Framework and Native Platform Adapters (which communicate with the underlying platform).
+
+### 2026-05-29 [Architecture: Component Level]
+**Specific Contribution:** I attepted to model the C++ Core components. I mainly focused on the new architecture, I have identified the JSI Layer, the Fabric (in charge of orchestrating UI commits, coordinates runtime threads, and prioritizes layout rendering work), and the Mounting Cordinator (in charge of computing differences between shadow trees and generates layout mutation lists).
