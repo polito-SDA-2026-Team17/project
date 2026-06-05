@@ -22,7 +22,7 @@
 
 ### 2026-05-29 [Architecture: Context Diagram]
 
-**Specific Contribution:** Following the course slides—specifically focusing on Page 24 which explains why text-based modeling can be better than visual tools—I updated our approach. To make our diagrams easier to maintain and version-control, I recreated the Level 1 System Context Diagram using Structurizr DSL code, moving our architecture from a static image to a dynamic code script.
+**Specific Contribution:** Following the course slides, specifically focusing on Page 24 which explains why text-based modeling can be better than visual tools, I updated our approach. To make our diagrams easier to maintain and version-control, I recreated the Level 1 System Context Diagram using Structurizr DSL code, moving our architecture from a static image to a dynamic code script.
 
 ### 2026-05-29 [Architecture: Container Diagram]
 
