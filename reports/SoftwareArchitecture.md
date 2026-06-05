@@ -24,8 +24,6 @@ To analyze the internal technical boundaries of the framework, the system is bro
 - **JavaScript Interface (JSI) Layer:** A lightweight C++ bridge allowing synchronous communication between JS and native platforms without serialization.
 - **Native Host Application:** Manages the native application lifecycle and renders the actual platform UI view trees (Java/Kotlin for Android, Swift/Obj-C for iOS).
 
----
-
 ## L3 - Component Diagram (Shared C++ Runtime Core)
 
 Focusing deeper into the architecture, the "Shared C++ Runtime Core" container is unpacked here to show its internal software components. This diagram illustrates how the modern React Native layout and module pipelines function under the hood.
