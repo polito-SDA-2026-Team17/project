@@ -4,9 +4,6 @@ workspace "React Native Architecture" "C4 model for React Native" {
         // ==========================================
         // --- L1: ACTORS & EXTERNAL SYSTEMS ---
         // ==========================================
-        endUser = person "End User" "Uses the final mobile application on their devices."
-        appDeveloper = person "App Developer" "Builds cross-platform mobile apps by writing React/JS application logic."
-
         iosPlatform = softwareSystem "iOS Platform" "Native Apple operating system (UIKit, CoreAnimation, Cocoa Touch APIs)." "iOS"
         androidPlatform = softwareSystem "Android Platform" "Native Android operating system (Android SDK, OS Window Manager)." "Android"
         reactLibrary = softwareSystem "React" "Core library providing the component-driven model and state management paradigms." "React"
@@ -34,10 +31,10 @@ workspace "React Native Architecture" "C4 model for React Native" {
                 mountingCoordinator = component "Mounting Coordinator" "Computes differences between shadow trees and generates layout mutation lists." "C++ (react::renderer::MountingCoordinator)"
 
                 // --- L3 Internal Component Relationships ---
-                jsiBindings -> fabricScheduler "Forwards UI rendering requests to"
-                jsiBindings -> turboModuleManager "Routes synchronous native module invocations to"
-                fabricScheduler -> shadowTreeManager "Schedules tree updates and commits on"
-                shadowTreeManager -> mountingCoordinator "Supplies calculated layout transactions to"
+                jsiBindings -> fabricScheduler "Forwards UI rendering requests to" "method call"
+                jsiBindings -> turboModuleManager "Routes synchronous native module invocations to" "method call"
+                fabricScheduler -> shadowTreeManager "Schedules tree updates and commits on" "method call"
+                shadowTreeManager -> mountingCoordinator "Supplies calculated layout transactions to" "method call"
             }
             
             // PLATFORM WRAPPERS
@@ -56,9 +53,6 @@ workspace "React Native Architecture" "C4 model for React Native" {
         // ==========================================
         // --- CONTEXT RELATIONSHIPS (L1 / L2 EXTERNAL) ---
         // ==========================================
-        endUser -> reactNative "Uses mobile app built with"
-        appDeveloper -> reactNative "Develops mobile applications utilizing"
-
         androidWrapper -> androidPlatform "Initializes and renders native views using" "Android SDK"
         appleWrapper -> iosPlatform "Initializes and renders native UIViews using" "UIKit"
 
@@ -74,19 +68,14 @@ workspace "React Native Architecture" "C4 model for React Native" {
     views {
         systemContext reactNative {
             include *
-            autolayout lr
         }
 
         container reactNative {
             include *
-            exclude yoga
-            exclude javaScriptRuntime
-            autolayout lr
         }
 
         component cppCore {
             include *
-            autolayout lr
         }
 
         theme default

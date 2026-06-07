@@ -9,6 +9,7 @@
 | 2026-05-23 | Setup of Structurizr Local workspace, Docker Compose file, and architecture report structure | 1.5 | Architecture: Structurizr Integration |
 | 2026-05-28 | Revision of React Native Container Diagram (L2) and System Context Diagram (L1) | 1.5 | Architecture |
 | 2026-05-29 | Definition of Component Diagram (L3) scope and content | 2.5 | Architecture: Component Level |
+| 2026-06-05 | Diagrams refactoring | 0.5 | Architecture |
 
 ## Detailed Contributions
 ### 2026-04-20 [Overview: Technical Background]
@@ -28,3 +29,6 @@
 
 ### 2026-05-29 [Architecture: Component Level]
 **Specific Contribution:** I attepted to model the C++ Core components. I mainly focused on the new architecture, I have identified the JSI Layer, the Fabric (in charge of orchestrating UI commits, coordinates runtime threads, and prioritizes layout rendering work), and the Mounting Cordinator (in charge of computing differences between shadow trees and generates layout mutation lists).
+
+### 2026-06-05 [Architecture]
+**Specific Contribution**: Refactored L1, L2, L3 diagrams, following feedback guidelines.
