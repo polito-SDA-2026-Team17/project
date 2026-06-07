@@ -15,9 +15,6 @@ workspace "React Native Architecture" "C4 model for React Native" {
         // ==========================================
         reactNative = softwareSystem "React Native Framework" "Cross-platform mobile UI framework based on the New Architecture." {
             
-            // TOOLING / BUILD TIME
-            codegen = container "React Native Codegen" "Parses TS/Flow specs to generate static C++ descriptors and native platform glue-code." "C++ / JavaScript"
-            
             // RUNTIME JAVASCRIPT LAYER
             jsLayer = container "JS Framework Layer" "Contains core npm packages (View, Text), developer-facing APIs, and the React tree builder." "JavaScript / TypeScript"
             
@@ -43,9 +40,7 @@ workspace "React Native Architecture" "C4 model for React Native" {
 
             // --- Inner Container Relationships ---
             jsLayer -> jsiBindings "Invokes native methods and dispatches rendering trees synchronously via" "JSI"
-            
-            codegen -> cppCore "Generates C++ ComponentDescriptors and native platform bindings for" "Build Tooling"
-            
+            jsLayer -> reactLibrary "Uses the declarative component model and state management from"
             cppCore -> androidWrapper "Dispatches layout mutation lists for native mounting via" "JNI"
             cppCore -> appleWrapper "Dispatches layout mutation lists for native mounting via" "C++ Pointers"
         }
@@ -55,8 +50,6 @@ workspace "React Native Architecture" "C4 model for React Native" {
         // ==========================================
         androidWrapper -> androidPlatform "Initializes and renders native views using" "Android SDK"
         appleWrapper -> iosPlatform "Initializes and renders native UIViews using" "UIKit"
-
-        reactNative -> reactLibrary "Uses the declarative component model and state management from"
         
         jsiBindings -> javaScriptRuntime "Interacts with the engine lifecycle and injects C++ Host Objects into" "JSI"
         shadowTreeManager -> yoga "Delegates the flexbox layout computational rendering of nodes to" "C++ Static Linking"
