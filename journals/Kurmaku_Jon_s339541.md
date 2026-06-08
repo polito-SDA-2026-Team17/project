@@ -6,7 +6,8 @@
 | [2026-04-19](#log-2026-04-19) | Setup project skeleton and journal template| 0.5 | -- |
 | [2026-04-21](#log-2026-04-21) | Overview and React Native metric analysis | 2 | Overview |
 | [2026-05-14](#log-2026-05-14) | Overview, Code dependencies | 4 | Overview, SoftwareDesign |
-| [2026-05-15](#log-2026-05-14) |  Code dependencies | 6 |  SoftwareDesign |
+| [2026-05-15](#log-2026-05-15) |  Code dependencies | 8 |  SoftwareDesign |
+| [2026-05-28](#log-2026-05-28) |  Refactor & Format | 4.5 |  SoftwareDesign |
 
 
 ## Detailed Contributions
@@ -19,3 +20,10 @@
 ### <a id="log-2026-05-14"></a><a id="log-2026-05-15"></a>[2026-05-14][2026-05-15][Report Overview, SoftwareDesign]
 **Specific Contribution:** Moved structure of package/react-native to Overview.md from SoftwareDesign.md, as that information is more coherent with the overview of the project rather than the design aspects. Created a `dump/analyze-dependencies.js` file in order to extract the dependencies metrics and data from `packages/react-native/*` and the output of this file is the `dump/DEPENDENCY_ANALYSIS.md`. Due to excessive amounts of information in the Analysis markdown i took the time to refine and process only the information needed from the markdown and to insert into the Software Design report. 
 
+### <a id="log-2026-05-28"></a>[2026-05-28][SoftwareDesign]
+**Specific Contribution:** Due to the SoftwareDesign.md report being way above the maximum word count depicted a formating was required. Formatting a 3000+ character document
+required selectivety.
+    1. Because the Markdown syntax special characters would affect the output of the counting done with `tokei SoftwareDesign.md` (Please note that this counting was done before we were provided the official command), much of the bulletin, numbering and table syntaxes were altered. 
+    2. Excess information was pruned.
+
+This was done in collaboration with the student `Arion Samarxhiu s353422` (name/surname/matricola).
