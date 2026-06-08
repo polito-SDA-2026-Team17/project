@@ -14,7 +14,7 @@
 
 By utilizing familiar web style development patterns and JSX markup, the system bridges the gap between web development and native execution without relying on HTML/CSS WebViews. Under the hood, a JavaScript runtime interprets the code and communicates with native platform threads via a C++ core architecture. 
 
-The framework directly invokes platform APIs in Objective-C or Java. This architecture translates JavaScript logic into platform specific native UI primitives such as, iOS's `UIView` or Android's `ViewGroup` and grants direct access to hardware features like the camera or GPS. Ultimately, this allows developers to maintain a mostly unified codebase while delivering complex applications that look, feel, and perform exactly like traditional native software.
+The framework directly invokes platform APIs in Objective-C or Java. This architecture translates JavaScript logic into platform specific native UI primitives such as, iOS's `UIView` or Android's `ViewGroup` and grants direct access to hardware features like the camera or GPS. This allows developers to maintain a mostly unified codebase while delivering complex applications that look, feel, and perform like traditional native software.
 
 ## Basic Code Statistics
 **Number of Files:** : 6960 files 
@@ -31,7 +31,7 @@ The framework directly invokes platform APIs in Objective-C or Java. This archit
 
 ## Internal Structure of packages/react-native
 
-The `packages/react-native` directory represents the core "engine" and public JavaScript API of the React Native framework. This folder contains the critical implementation responsible for managing multi-platform complexity through a carefully layered architecture.
+The `packages/react-native` directory represents the core "engine" and public JavaScript API of the React Native framework. This folder contains the critical implementation responsible for managing multi-platform complexity through a layered architecture.
 
 ---
 
@@ -48,7 +48,7 @@ The Libraries directory is organized into functional modules that provide the de
 - **Polyfills:** Houses environmental setup (InitializeCore.js) to make the JS environment feel consistent across iOS and Android.
 - **Native Modules:** Contains JS definitions for internal APIs like NativeEventEmitter and NativeModules.
 
-**Design Role:** Acts as the Facade for the entire framework, hiding the complexity of native platform implementations behind a unified React API.
+**Design Role:** Acts as the Facade for the framework, hiding the complexity of native platform implementations behind a unified React API.
 
 ---
 
@@ -89,7 +89,7 @@ This is the equivalent of ReactAndroid but targeted at Apple platforms (iOS, mac
 
 **The Critical Shared C++ Core**
 
-ReactCommon is arguably the most critical folder for software design, as it contains the shared C++ core that unifies cross-platform behavior.
+ReactCommon is the most critical folder for software design, as it contains the shared C++ core that unifies cross-platform behavior.
 
 **Content:** C++ headers and implementation files for yoga (layout engine), jsi (JavaScript Interface), fabric (new renderer), and turbomodule.
 
@@ -123,7 +123,7 @@ While not part of the runtime code, these scripts are essential for the framewor
 
 This folder manages external or embedded SDKs that the core framework depends on.
 
-**Content:** Typically houses the hermes-engine configurations and pre-built binaries.
+**Content:** Houses the hermes-engine configurations and pre-built binaries.
 
 **Features:**
 - **Execution Environment:** Manages the integration of the Hermes JavaScript engine, which is optimized for fast startup on mobile devices.
