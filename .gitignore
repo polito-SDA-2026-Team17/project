@@ -1,0 +1,5 @@
+# Ignore Structurizr state files
+/diagrams/.structurizr
+
+# Keep only workspace.dsl as source of truth for the workspace
+/diagrams/workspace.json
