@@ -450,3 +450,14 @@ Composite pattern is essential because:
 
 ## 3. Summary
 
+The dependency analysis and design pattern analysis together show that React Native has a mature, layered, and generally maintainable design, but one that also carries the complexity expected from a large cross-platform framework.
+
+From the dependency perspective, the `Libraries` directory is the main design hub. This is expected because it contains the public JavaScript APIs, shared components, utilities, and abstractions used by application developers. Its high number of outgoing dependencies shows that it coordinates many parts of the framework, which supports usability but also increases maintenance risk. Changes in this area can affect a wide surface of the system.
+
+The native-focused directories, such as `ReactAndroid`, `ReactApple`, and `ReactCommon`, appear as low-dependency or leaf modules in the JavaScript/TypeScript dependency graph. This does not mean they are insignificant. Instead, it reflects a strong separation between the JavaScript API layer and the native platform implementation layers. This separation improves modularity by keeping platform-specific concerns isolated behind stable abstractions.
+
+The knowledge dependency analysis reveals hidden coupling. Packages such as `react-native`, `rn-tester`, `react-native-codegen`, and `react-native-fantom` frequently change together even without direct code imports. This suggests that maintainability depends not only on visible dependencies, but also on testing, code generation, and shared release workflows. These relationships should be documented carefully because they are harder for new contributors to discover.
+
+The pattern analysis shows that React Native uses proven design patterns appropriately. The Observer Pattern supports event-driven communication between JavaScript and native systems. The Registry Pattern enables flexible component registration and native-driven startup. The Factory Pattern keeps animation APIs simple while hiding internal implementation classes. The Composite Pattern allows complex animation graphs to be built from reusable nodes and optimized as a tree.
+
+Overall, React Native demonstrates strong software design quality. Its modularity comes from clear layering and abstraction, while its maintainability is supported by familiar patterns and stable public APIs. The main design challenge is hidden logical coupling caused by the system's scale, testing infrastructure, and cross-platform responsibilities.
