@@ -9,6 +9,8 @@
 | 2026-05-29 | Translating the visual context schema into code using Structurizr text-based tools   | 1.0            | Architecture: Context Diagram   |
 | 2026-05-29 | Designing and coding the Level 2 Container Diagram using Structurizr DSL             | 2.0            | Architecture: Container Diagram |
 | 2026-06-03 | Designing and coding the Level 3 Component Diagram using Structurizr DSL             | 2.5            | Architecture: Component Diagram |
+| 2026-06-05 | Getting feedback from the professor about the architecture-related diagrams          | 2              | Architecture: Component Diagram |
+| 2026-06-03 | Organizing meeting to fix the issues on diagrams based on professor's feedback       | 2              | Architecture: Component Diagram |
 
 ## Detailed Contributions
 
@@ -31,3 +33,11 @@
 ### 2026-06-03 [Architecture: Component Diagram]
 
 **Specific Contribution:** I created our Level 3 Component Diagram for the Shared C++ Runtime Core using Structurizr DSL and saved it as component_diagram_L3. I broke down the C++ layer into its core parts like the JSI Registry, Fabric Scheduler, and Shadow Tree. I coded how these components work together to process UI changes, talk to the Yoga layout engine, and send the final updates to the Android and Apple platforms.
+
+### 2026-06-05 [Architecture: General Review]
+
+**Specific Contribution:** I participated in our project evaluation meeting with Prof. Vetrò to review our C4 models. Based on his feedback, I noted down the exact fixes we need to make. Our main focus will be fixing mismatches between diagram layers, ensuring all incoming and outgoing connections (I/O arrows) match perfectly across levels, and writing strong explanations in the final report to justify why we drew our system boundaries the way we did.
+
+### 2026-06-07 [Architecture: Component Diagram]
+
+I held an online sync meeting with my teammates to fix the diagram issues pointed out during evaluation and align our Level 2 and Level 3 system boundaries. To make our technical analysis more complete, we agreed to add a new Level 3 Component Diagram. I took charge of planning how to open up the "JS Framework Layer" container to show its deep internal modules and code structure in the report.
