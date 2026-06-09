@@ -1,163 +1,43 @@
-# Report 1: System Overview
+# System Overview: React Native
 
-# React Native
+## 1. Purpose of the System and Main Stakeholders
 
-## System Purpose and Stakeholders
-**Purpose:** To enable developers the building of  native mobile, web, and desktop applications using React and JavaScript/TypeScript, sharing a single codebase across multiple platforms.
+**Purpose:**
+React Native is an open-source UI software framework designed to enable the development of cross-platform applications (Android, iOS, macOS, Windows, and Web) using a single, unified JavaScript codebase. Its primary objective is to combine the declarative UI paradigm and component-based architecture of the React library with the performance and look-and-feel of native operating system capabilities. Unlike hybrid frameworks that render UIs inside a web view, React Native bridges JavaScript logic directly to native OS UI components (e.g., mapping a `<View>` in JavaScript to an `android.view.ViewGroup` on Android or a `UIView` on iOS). This architecture allows developers to achieve native-level performance and responsiveness while maintaining the rapid iteration cycles typical of web development.
 
-**Main Stakeholders:** : 
-1. **Mobile Application Developers** : The primary users who utilize the framework to build, test, and deploy applications.
-2. **Code Maintainers** : Meta and community leads who maintain the systems architecture, ensure reliability and manage pull requests from third party contributors.
+With the introduction of the "New Architecture" (featuring the Fabric rendering engine and TurboModules), the framework's purpose has expanded to eliminate asynchronous serialization bottlenecks. By leveraging the JavaScript Interface (JSI), the system now allows synchronous, memory-shared communication between the JavaScript layer and the underlying C++ core, further optimizing UI rendering synchronization and native module execution.
 
-## System Description
-**React Native** is a cross platform UI framework developed by Meta that enables developers to build production ready, natively rendering mobile applications for iOS and Android using a shared JavaScript and React codebase. 
+**Main Stakeholders:**
+* **Mobile Developers / Software Engineers:** The primary users of the framework. They utilize the React Native APIs, core components, and tooling to build, debug, and deploy cross-platform mobile applications without needing deep expertise in native languages like Kotlin or Swift.
+* **Meta Platforms, Inc.:** The original creator, primary maintainer, and core sponsor of the project. Meta uses React Native extensively in its flagship applications (e.g., Facebook, Instagram) and drives the framework's architectural roadmap.
+* **Open-Source Community & Contributors:** A vast ecosystem of independent developers and corporate entities (such as Microsoft and Shopify) who contribute bug fixes, architectural proposals, and third-party libraries that extend the framework's core capabilities.
+* **End Users:** The individuals utilizing the mobile applications built with React Native. Their user experience—specifically regarding application responsiveness, native accessibility features, and smooth animations—is the ultimate benchmark of the framework's success.
 
-By utilizing familiar web style development patterns and JSX markup, the system bridges the gap between web development and native execution without relying on HTML/CSS WebViews. Under the hood, a JavaScript runtime interprets the code and communicates with native platform threads via a C++ core architecture. 
+## 2. System Description and Basic Code Statistics
 
-The framework directly invokes platform APIs in Objective-C or Java. This architecture translates JavaScript logic into platform specific native UI primitives such as, iOS's `UIView` or Android's `ViewGroup` and grants direct access to hardware features like the camera or GPS. This allows developers to maintain a mostly unified codebase while delivering complex applications that look, feel, and perform like traditional native software.
+**System Description:**
+The React Native framework operates on a hybrid architecture that heavily relies on system-to-system integrations. It is conceptually divided into two main environments: the JavaScript runtime and the Native/C++ runtime. 
 
-## Basic Code Statistics
-**Number of Files:** : 6960 files 
+At the top level, developers write business logic and UI layouts using JavaScript and TypeScript within the **JS Framework Layer**. This layer uses the React library to manage state and compute changes in the component tree via its reconciliation process. 
 
-**Lines of Code (LOC):** : 757832 
+These computed changes are passed down to the **Shared C++ Runtime Core** (the engine of the New Architecture). This core is platform-agnostic and relies on the Hermes JS Engine for bytecode execution and the Yoga Layout Engine for calculating flexbox-based geometries. The C++ core manages an immutable shadow tree of the UI and orchestrates layout commits synchronously. 
 
-**Modules/Packages:** : Since this is a massive project, it is strucutred as a *Yarn Workspace monorepo*, not a single package, but a collection of packages modules that share a root set of dependencies. According to the root package.json, the modules are located in the **packages/*** and **private/*** directories. Dependencies are a lot to count manually as different modules have different dependencies based on their functionality.
+Finally, the generic layout instructions generated by the C++ core are passed to the **Platform Adapters** (React Android and React Apple). These adapters act as low-level translation boundaries, converting abstract C++ commands into concrete, OS-specific UI rendering methods via JNI (Java Native Interface) for Android and Objective-C++ bindings for iOS. This strict separation of concerns allows the framework's core rendering logic to remain entirely platform-independent.
 
-**Number of Developers:** : 2821 Github contributors 
+**Basic Code Statistics:**
+The following statistics represent the current state of the React Native repository, encompassing the core framework, platform adapters, and bundled utilities based on static code analysis.
 
-**Language/Tech Stack:** : Assembly, C, C++, HTML,CSS, JavaScript, TypeScript, Java, Kotlin, Objective-C , Objective-C++, Python, Ruby, Bash Scripts (Shell), Swift. 
+* **Total Number of Files:** 7,001
+* **Total Lines of Code (LOC):** 963,539 total lines, including 726,978 lines of executable source code.
+* **Primary Programming Languages:** * JavaScript (327,812 LOC) & TypeScript (14,488 LOC): Dominant in the API and Framework layer.
+    * C++ (92,476 LOC) & C/C++ Headers (56,854 LOC): Dominant in the Shared Runtime Core and JSI.
+    * Kotlin (83,229 LOC) & Java (6,299 LOC): Dominant in the Android Platform Adapters.
+    * Objective-C++ (41,553 LOC) & Objective-C (10,605 LOC): Dominant in the Apple Platform Adapters.
+![React Native CLOC Analysis](../images/LOC.jpg)
 
-![alt text](../images/image.png)
-
-## Internal Structure of packages/react-native
-
-The `packages/react-native` directory represents the core "engine" and public JavaScript API of the React Native framework. This folder contains the critical implementation responsible for managing multi-platform complexity through a layered architecture.
-
----
-
-## 1. Libraries/
-
-**The Heart of JavaScript-Side Implementation**
-
-The Libraries directory is organized into functional modules that provide the declarative API for developers.
-
-**Content:** Subdirectories including Components/, Core/, Image/, Text/, Utilities/, and Renderer/.
-
-**Features:**
-- **Abstraction Layer:** Defines cross-platform JS components (e.g., `<View>`, `<Text>`) that developers use in their applications.
-- **Polyfills:** Houses environmental setup (InitializeCore.js) to make the JS environment feel consistent across iOS and Android.
-- **Native Modules:** Contains JS definitions for internal APIs like NativeEventEmitter and NativeModules.
-
-**Design Role:** Acts as the Facade for the framework, hiding the complexity of native platform implementations behind a unified React API.
-
----
-
-## 2. ReactAndroid/
-
-**Android Platform Implementation**
-
-This folder contains the specialized code required to run React Native on the Android platform.
-
-**Content:** Java and Kotlin source code, JNI (Java Native Interface) C++ bindings, and Gradle build configurations.
-
-**Features:**
-- **View Managers:** Java classes that map JS components to Android-specific views (e.g., mapping `<View>` to ViewGroup).
-- **Bridge Logic:** Implements the communication channel on the Android side to receive messages from the JS thread.
-- **Native Modules:** Android-specific implementations of hardware APIs (Camera, Vibration, etc.).
-
-**Design Role:** Represents the Implementation side of the Bridge pattern for the Android OS.
-
----
-
-## 3. ReactApple/ (formerly React/)
-
-**Apple Platform Implementation**
-
-This is the equivalent of ReactAndroid but targeted at Apple platforms (iOS, macOS, tvOS, and visionOS).
-
-**Content:** Objective-C, Objective-C++, and Swift files. It includes the RCT (React) prefixed classes.
-
-**Features:**
-- **Rendering:** Contains the code for the Fabric renderer on iOS and the layout integration with UIKit.
-- **Lifecycle Management:** Handles the application state transitions (Background/Foreground) within the iOS ecosystem.
-
-**Design Role:** Like its Android counterpart, this serves as the Implementation for the Apple ecosystem within the Bridge pattern.
-
----
-
-## 4. ReactCommon/
-
-**The Critical Shared C++ Core**
-
-ReactCommon is the most critical folder for software design, as it contains the shared C++ core that unifies cross-platform behavior.
-
-**Content:** C++ headers and implementation files for yoga (layout engine), jsi (JavaScript Interface), fabric (new renderer), and turbomodule.
-
-**Features:**
-- **Performance:** By moving core logic to C++, React Native ensures that performance-intensive tasks like layout calculation (Yoga) are shared and optimized across all platforms.
-- **JSI (JavaScript Interface):** The foundational layer that allows JS to hold a reference to C++ host objects, enabling synchronous calls.
-
-**Design Role:** Implements the Strategy Pattern for cross-platform layout and the Mediator Pattern for high-performance communication between JS and Native.
-
----
-
-## 5. scripts/
-
-**Automation and Framework Distribution**
-
-While not part of the runtime code, these scripts are essential for the framework's architecture and distribution.
-
-**Content:** Shell scripts, Node.js scripts, and Ruby scripts (for CocoaPods).
-
-**Features:**
-- **Codegen:** Scripts that automatically generate the C++ and Java glue code from JS Flow/TypeScript definitions.
-- **CLI Integration:** Tools used by the React Native CLI to link libraries or start the Metro packager.
-
-**Design Role:** Automates Generative Programming, ensuring type safety between JS and Native without manual boilerplate.
-
----
-
-## 6. sdks/
-
-**External and Embedded SDK Management**
-
-This folder manages external or embedded SDKs that the core framework depends on.
-
-**Content:** Houses the hermes-engine configurations and pre-built binaries.
-
-**Features:**
-- **Execution Environment:** Manages the integration of the Hermes JavaScript engine, which is optimized for fast startup on mobile devices.
-
-**Design Role:** Acts as a Wrapper for the execution engine, decoupling the framework logic from the specific JS engine being used.
-
-
-## 7. template/
-
-**Application Blueprint and Standardization**
-
-Contains the "blueprint" for every new React Native project.
-
-**Content:** The basic folder structure (ios/, android/, App.tsx) that a user gets when running `npx react-native init`.
-
-**Features:**
-- **Standardization:** Ensures every app starts with a predictable design that the core framework can hook into.
-
-**Design Role:** Represents the Prototype pattern for user-land applications.
-
----
-
-## 8. jest/
-
-**Testing Infrastructure**
-
-Contains the testing infrastructure and mocks for the entire package.
-
-**Content:** Jest setup files and mocks for native components.
-
-**Features:**
-- **Unit Testing:** Provides the environment needed to test JS components without needing a physical device or emulator.
-
-**Design Role:** Implements Mock Objects to decouple testing from hardware-dependent native modules.
-
----
-
+* **Main Modules / Packages:**
+    * `Libraries/`: Contains the core JavaScript APIs and React Native npm package definitions.
+    * `ReactCommon/`: Houses the cross-platform C++ core, including the Fabric rendering pipeline, TurboModules registry, and JSI definitions.
+    * `ReactAndroid/`: Contains the Android-specific implementation, JNI adapters, and Kotlin/Java boundary code.
+    * `React/` & `React-RCTAppDelegate/`: Contain the Apple-specific (iOS/macOS) implementations and Objective-C++ boundary code.
+* **Number of Developers (Contributors):** 3,929 individual contributors to the main repository.
