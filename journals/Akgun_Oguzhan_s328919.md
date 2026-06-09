@@ -1,16 +1,14 @@
 # Individual Project Journal: s328919 Oguzhan Akgun
 
 ## Activity Log
+
 | Date | Activity Description | Effort (Hours) | Related Report Section |
 | :--- | :--- | :--- | :--- |
-|
 | [2026-04-22](#log-2026-04-21) | Overview and ReactAndroid metric analysis | 2 | Overview |
 | [2026-05-07](#log-2026-05-07) | Finalized Level 1 Context analysis and reporting | 3 | Level 1: Context |
 | [2026-05-28](#log-2026-05-28) | Drafted alternative L2 configuration using Structurizr DSL | 4 | Level 2: Containers |
 | [2026-06-05](#log-2026-06-05) | Got feedback about diagrams | 2 | Diagrams |
-| [2026-06-07](#log-2026-06-05) | Organized meeting and fixed our mistakes | 2 | Diagrams |
-
-
+| [2026-06-07](#log-2026-06-07) | Organized meeting and fixed our mistakes | 2 | Diagrams |
 ## Detailed Contributions
 ### <a id="log-2026-04-19"></a>[2026-04-19]
 **Specific Contribution:** I explored the React Native repository to find a sub-system that meets the project's 100,000 lines of code requirement with ~97K lines of code. After reviewing the package structure, I identified ReactAndroid as the most optimal candidate for our analysis.
