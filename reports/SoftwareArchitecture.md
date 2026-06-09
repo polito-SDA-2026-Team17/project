@@ -37,10 +37,13 @@ The Container diagram decomposes the React Native Framework into its primary dep
 To maintain the architectural integrity of a runtime execution model, **React Native Codegen** was explicitly excluded from the C4 diagrams. Codegen is a build-time CLI utility responsible for generating static C++ boilerplate. Including a build-time tool within a Level 2 or Level 3 runtime workflow creates a severe Input/Output inconsistency; thus, it was omitted to strictly document the system's runtime architecture.
 
 ### 3.2. Relationship with Clean Architecture
-The framework's Level 2 containers exhibit a strict alignment with Clean Architecture blueprint, specifically regarding the Dependency Rule:
-* **Entities / Enterprise Business Rules:** The `Shared C++ Runtime Core` acts as the high-level policy center. It encapsulates the core architectural rules of the framework: UI node structuring, diffing algorithms, and native module routing. This core possesses zero knowledge of the outside world (Android `ViewGroup` or iOS `UIView`).
-* **Interface Adapters:** The `JS Framework Layer` functions as the interface adapter, translating declarative React code into JSI commands.
-* **Frameworks & Drivers:** The `Platform Adapters` represent the outermost detail layer. Dependencies point strictly inward: Adapters depend on the C++ Core to receive UI mutation lists, but the C++ Core never depends on the Adapters.
+
+There is a partial relationship with Clean Architecture, but React Native is not a clean-room example of it.
+
+* **The Positive Match:** The architecture uses inward-facing abstractions and outward-facing adapters. The C++ core defines delegate interfaces such as `UIManagerDelegate`, `UIManagerAnimationDelegate`, and `UIManagerViewTransitionDelegate`, while Android and iOS provide concrete implementations. This closely mirrors Dependency Inversion: the core depends on abstractions, and the platform containers plug in concrete behavior.
+* **The Mismatch:** React Native is a framework, not an application domain. Framework concerns such as scheduling, mounting, layout, event dispatch, bridge compatibility, feature flags, and native module registration are all part of the same system. This means the layers are not as strictly separated as in classic Clean Architecture. The presence of legacy bridge code, global registries, and feature-flagged alternative execution paths makes the architecture pragmatic rather than pure.
+
+In short, React Native resembles Clean Architecture in its use of adapters and abstractions, but it diverges because the framework itself must own platform integration and runtime orchestration.
 
 ---
 
