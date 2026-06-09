@@ -3,14 +3,14 @@
 ## Activity Log
 | Date | Activity Description | Effort (Hours) | Related Report Section |
 | :--- | :--- | :--- | :--- |
-| 2026-04-20 | Review of React Native official documentation and New Architecture guides | 2.0 | Overview: Technical Background |
+| 2026-04-20 | Review of React Native official documentation and New Architecture guides | 1.5 | Overview: Technical Background |
 | 2026-04-20 | Review of React Native architecture documentation and codebase | 2.5 | Overview: Technical Background |
 | 2026-05-05 | Revision of React Native System Context Diagram (L1) | 1.5 | Architecture: System Context |
 | 2026-05-06 | Definition of Container boundaries (L2) for the New Architecture | 2.5 | Architecture: Container Level |
 | 2026-05-23 | Setup of Structurizr Local workspace, Docker Compose file, and architecture report structure | 1.5 | Architecture: Structurizr Integration |
 | 2026-05-28 | Revision of React Native Container Diagram (L2) and System Context Diagram (L1) | 1.5 | Architecture |
 | 2026-05-29 | Definition of Component Diagram (L3) scope and content | 2.5 | Architecture: Component Level |
-| 2026-06-05 | Diagrams refactoring | 1.0 | Architecture |
+| 2026-06-05 | Diagrams refactoring | 0.5 | Architecture |
 | 2026-06-08 | Report | 2.5 | Architecture |
 | 2026-06-09 | Report | 2.5 | Architecture |
 
