@@ -8,7 +8,7 @@ The architectural models and diagrams presented in this report were generated us
 ## 2. Level 1: System Context Diagram
 
 **Diagram Reference:**
-*(Insert Level 1 Diagram Here)*
+![System Context](../images/react-native-system-context.png)
 
 **Description:**
 The Context diagram defines the macro-boundaries of the React Native Framework and its interactions with external software systems. The framework acts as a central operational hub for cross-platform mobile UI rendering. It operates by coordinating several standalone external systems:
@@ -24,7 +24,7 @@ The Context diagram defines the macro-boundaries of the React Native Framework a
 ## 3. Level 2: Container Diagram
 
 **Diagram Reference:**
-*(Insert Level 2 Diagram Here)*
+![System Context](../images/react-native-container.png)
 
 **Description:**
 The Container diagram decomposes the React Native Framework into its primary deployable and executable boundaries. The architecture is distinctly divided into a JavaScript-driven API layer and a C++/Native-driven processing layer.
@@ -53,8 +53,7 @@ To comply with the requirement to motivate architectural decisions, we deliberat
 ### 4.1. Component Diagram: JS Framework Layer
 
 **Diagram Reference:**
-*(Insert Level 3 JS Framework Layer Diagram Here)*
-
+![System Context](../images/L3-jsframework.png)
 **Component Descriptions:**
 This diagram illustrates the upper half of the architecture, where developer logic is parsed and reconciled.
 * **React Core Library:** The foundational package that manages the component lifecycle, state hooks (e.g., `useState`, `useEffect`), and declarative UI definitions.
@@ -66,7 +65,7 @@ This diagram illustrates the upper half of the architecture, where developer log
 ### 4.2. Component Diagram: Shared C++ Runtime Core
 
 **Diagram Reference:**
-*(Insert Level 3 Shared C++ Runtime Core Diagram Here)*
+![System Context](../images/react-native-cpp-core-components.png)
 
 **Component Descriptions:**
 This diagram details the internal C++ pipeline responsible for synchronous UI rendering (Fabric) and logic processing (TurboModules).
@@ -109,3 +108,5 @@ The static code analysis metrics below demonstrate the distribution of the frame
 | **React Android Adapter** | Kotlin (83,229), Java (6,299) | **89,528** |
 | **React Apple Adapter** | Obj-C++ (41,553), Obj-C (10,605), Swift (930) | **53,088** |
 | **Total Mapped Architecture** | | **634,246** |
+
+![System Context](../images/LOC.jpg)
