@@ -9,8 +9,8 @@
 | 2026-05-29 | Translating the visual context schema into code using Structurizr text-based tools   | 1.0            | Architecture: Context Diagram   |
 | 2026-05-29 | Designing and coding the Level 2 Container Diagram using Structurizr DSL             | 2.0            | Architecture: Container Diagram |
 | 2026-06-03 | Designing and coding the Level 3 Component Diagram using Structurizr DSL             | 2.5            | Architecture: Component Diagram |
-| 2026-06-05 | Getting feedback from the professor about the architecture-related diagrams          | 2              | Architecture: Component Diagram |
-| 2026-06-03 | Organizing meeting to fix the issues on diagrams based on professor's feedback       | 2              | Architecture: Component Diagram |
+| 2026-06-05 | Getting feedback from the professor about the architecture-related diagrams          | 2              | Architecture: All Diagrams      |
+| 2026-06-07 | Organizing meeting to fix the issues on diagrams based on professor's feedback       | 2              | Architecture: Fixing Diagrams   |
 
 ## Detailed Contributions
 
