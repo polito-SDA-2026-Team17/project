@@ -40,4 +40,4 @@
 
 ### 2026-06-07 [Architecture: Component Diagram]
 
-I held an online sync meeting with my teammates to fix the diagram issues pointed out during evaluation and align our Level 2 and Level 3 system boundaries. To make our technical analysis more complete, we agreed to add a new Level 3 Component Diagram. I took charge of planning how to open up the "JS Framework Layer" container to show its deep internal modules and code structure in the report.
+**Specific Contribution:** I held an online sync meeting with my teammates to fix the diagram issues pointed out during evaluation and align our Level 2 and Level 3 system boundaries. To make our technical analysis more complete, we agreed to add a new Level 3 Component Diagram. I took charge of planning how to open up the "JS Framework Layer" container to show its deep internal modules and code structure in the report.
