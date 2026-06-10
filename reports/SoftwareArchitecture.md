@@ -109,7 +109,7 @@ The architectural design enforces high cohesion and low coupling, critical for l
 
 ---
 
-## 7. Lines of Code (LOC) Analysis
+## 6. Lines of Code (LOC) Analysis
 
 The static code analysis metrics below demonstrate the distribution of the framework across its defined architectural containers. The data highlights the massive structural footprint of the JS API layer and the centralized C++ core. *(Analyzed using the `cloc` CLI tool on the active runtime repository, excluding tests, build artifacts, and third-party dependencies).*
 
