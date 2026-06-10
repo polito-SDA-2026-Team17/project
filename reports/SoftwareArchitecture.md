@@ -16,6 +16,7 @@ The Context diagram defines the macro-boundaries of the React Native Framework a
 * **JS Runtime (Hermes):** The external execution engine specifically optimized for React Native. It parses and evaluates JavaScript bytecode, manages garbage collection on the JS thread, and interacts directly with the C++ core via JSI.
 * **Yoga Layout Engine:** A standalone, cross-platform layout engine that implements Flexbox. React Native delegates the mathematical calculation of UI coordinates and geometry to this external C/C++ library.
 * **Android / iOS Platforms:** The ultimate targets of the framework. React Native pushes abstract initialization commands and native rendering instructions to these host operating systems.
+
 Through these relationships, the framework is able to translate React's declarative and expressive logic into high-performance user interfaces, leveraging the native capabilities of each operating system without compromising the user experience.
 
 *(Note: Human actors, such as Mobile Developers or End Users, are deliberately excluded from this boundary to strictly model the system-to-system integrations of the framework's runtime environment.)*
