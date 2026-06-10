@@ -16,6 +16,7 @@ The Context diagram defines the macro-boundaries of the React Native Framework a
 * **JS Runtime (Hermes):** The external execution engine specifically optimized for React Native. It parses and evaluates JavaScript bytecode, manages garbage collection on the JS thread, and interacts directly with the C++ core via JSI.
 * **Yoga Layout Engine:** A standalone, cross-platform layout engine that implements Flexbox. React Native delegates the mathematical calculation of UI coordinates and geometry to this external C/C++ library.
 * **Android / iOS Platforms:** The ultimate targets of the framework. React Native pushes abstract initialization commands and native rendering instructions to these host operating systems.
+Through these relationships, the framework is able to translate React's declarative and expressive logic into high-performance user interfaces, leveraging the native capabilities of each operating system without compromising the user experience.
 
 *(Note: Human actors, such as Mobile Developers or End Users, are deliberately excluded from this boundary to strictly model the system-to-system integrations of the framework's runtime environment.)*
 
@@ -32,6 +33,10 @@ The Container diagram decomposes the React Native Framework into its primary dep
 * **JS Framework Layer:** Encapsulates the developer-facing APIs, core UI primitives, and the React tree calculation algorithms. It processes developer code and prepares standardized, synchronous rendering requests.
 * **Shared C++ Runtime Core:** The central engine of the New Architecture (codenamed Fabric). It manages JSI bindings, maintains the immutable C++ Shadow Tree, and processes synchronous logic independently of the host OS SDKs.
 * **React Android & React Apple Adapters:** Low-level boundary containers responsible for translating abstract C++ layout mutation instructions into concrete native UI rendering commands (using JNI for Android and Objective-C++ bindings for iOS).
+
+*(Note: the New Architecture is the one introduced with the release 0.76; which replaces the Legacy Bridge. Though Legacy Bridge is still present it is disabled by default via feature flags.)*
+
+*(Note: Since the monorepo is organized as a workspace of multiple packages, with the root package defining `packages/*` and `private/*` workspaces, we focused our analysis on the content of the public `/packages/react-native` folder. the `JS Framework Layer` is modeled from `Libraries/`, the `Shared C++ Runtime Core` is modeled from `React/` and `React Common/`; while `React Android Adapter` and `React Apple Adapter` are modeled from `ReactAndroid/` and `ReactApple/`.)*
 
 ### 3.1. Excluded Containers: React Native Codegen
 To maintain the architectural integrity of a runtime execution model, **React Native Codegen** was explicitly excluded from the C4 diagrams. Codegen is a build-time CLI utility responsible for generating static C++ boilerplate. Including a build-time tool within a Level 2 or Level 3 runtime workflow creates a severe Input/Output inconsistency; thus, it was omitted to strictly document the system's runtime architecture.
@@ -78,11 +83,14 @@ This diagram details the internal C++ pipeline responsible for synchronous UI re
 * **Shadow Tree Manager:** Constructs and maintains the C++ Shadow Tree—a hierarchy of immutable nodes representing the UI. It delegates the complex calculation of flexbox coordinates to the external Yoga engine.
 * **Mounting Coordinator:** Compares the newly calculated shadow tree with the previously rendered tree. It generates a highly optimized, abstract list of mutation operations (Create, Update, Delete nodes) and sends this list to the Platform Adapters.
 
+*(Note: JavaScript Interface (JSI), is a compact C++ API that bridges JavaScript engines and native code, enabling synchronous method calls between the JS layer and a C++ core. It exposes a runtime abstraction (`IRuntime`) for preparing and evaluating scripts, queuing and draining microtasks, and defining engine-specific runtime methods. Concrete implementations of those pure virtual APIs are provided by the underlying engine. JSI lets C++ create, inspect, and manipulate JS values (strings, numbers, symbols, objects, arrays, typed arrays) and supports host integration via `HostObject` and `HostFunction`, allowing JavaScript to get and set properties directly on native-backed objects..)*
+
 ### 4.3. SOLID Principles Observation at Level 3
 An analysis of the Level 3 C++ Core reveals strict adherence to, and potential risks regarding, SOLID principles:
 * **Single Responsibility Principle (SRP):** Strongly adhered to. In the legacy architecture, a monolithic `UIManager` handled tree management, diffing, and scheduling. In the New Architecture, responsibilities are cleanly segregated: `Fabric Scheduler` only schedules, `Shadow Tree Manager` only holds tree state, and `Mounting Coordinator` only calculates diffs.
 * **Open/Closed Principle (OCP):** Supported by the `TurboModules Engine`. The architecture allows developers to inject new native capabilities (Open for extension) without modifying the internal C++ core or the JSI bridge (Closed for modification) via standardized C++ interfaces.
 * **Interface Segregation Principle (ISP) Risk:** The `JSI Engine Bridge` presents a potential ISP violation. By acting as a massive, centralized router for all JS-to-C++ communications, it risks forcing various independent internal modules to depend on a single, monolithic interface definition rather than narrow, client-specific interfaces.
+* **Dependency Inversion Principle (DIP):** Low-level native OS platform views (`React Android Adapter` / `React Apple Adapter`) do not dictate the behavior of the high-level framework logic. Instead, both depend on the pure virtual interfaces and abstract structures defined in the `Shared C++ Runtime Core`.
 
 ---
 
@@ -92,6 +100,7 @@ An analysis of the Level 3 C++ Core reveals strict adherence to, and potential r
 1. **Interoperability:** Achieved natively via the JSI (JavaScript Interface). Unlike the legacy architecture that relied on asynchronous JSON serialization over a bridge, JSI allows JavaScript and C++ to share the same memory space, enabling direct, synchronous method invocations.
 2. **Portability:** The core layout and logic engines (`ReactCommon`) are written entirely in cross-platform C++14/C++17. This isolates the complex rendering logic from OS-specific SDKs, allowing the framework to be easily ported to Windows, macOS, or VR platforms.
 3. **Performance & Responsiveness:** By splitting the render pipeline into concurrent components, the architecture supports thread-safe background rendering. The `Shadow Tree Manager` computes complex layouts on a background thread, preventing the main UI thread from blocking and eliminating frame drops during complex animations.
+4. **Maintainability**: Moving core framework logic into a unified C++ codebase allows the community to maintain a single source of truth for core layout features. Although, some component-level adapters are large and highly connected.
 
 ### 5.2. Coupling and Cohesion Analysis
 The architectural design enforces high cohesion and low coupling, critical for long-term maintainability:
